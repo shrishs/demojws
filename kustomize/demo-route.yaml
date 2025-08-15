@@ -4,14 +4,15 @@ metadata:
   name: demoapp
   labels:
     app.kubernetes.io/instance: demoapp
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-rule: "^(.*)$"
 spec:
   rules:
-  - host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: demoapp
-          servicePort: 8080
+    - host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demoapp
+                port:
+                  number: 8080
