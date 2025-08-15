@@ -12,5 +12,5 @@ spec:
     name: demoapp
     weight: 100
   port:
-    targetPort: http
+    targetPort: 8080
   wildcardPolicy: None
