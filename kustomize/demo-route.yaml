@@ -5,6 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: demoapp
 spec:
+  host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
   path: /
   to:
     kind: Service
@@ -12,7 +13,4 @@ spec:
     weight: 100
   port:
     targetPort: http
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
