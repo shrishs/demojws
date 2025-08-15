@@ -9,4 +9,6 @@ resources:
   - demo-sa.yaml
   - demo-deplyoment.yaml
   - demo-service.yaml
+  - rb-allow-custom-host.yaml
+  - role-route-custom-host.yaml
   - demo-route.yaml
