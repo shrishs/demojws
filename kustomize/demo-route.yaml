@@ -1,16 +1,17 @@
-kind: Route
-apiVersion: route.openshift.io/v1
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: demoapp
   labels:
     app.kubernetes.io/instance: demoapp
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-rule: "^(.*)$"
 spec:
-  host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
-  path: /
-  to:
-    kind: Service
-    name: demoapp
-    weight: 100
-  port:
-    targetPort: 8080
-  wildcardPolicy: None
+  rules:
+  - host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demoapp
+          servicePort: 8080
