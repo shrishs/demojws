@@ -1,0 +1,33 @@
+- ruleID: route-to-ingress-00001
+  category: mandatory
+  effort: 3
+  labels:
+    - konveyor.io/source=openshift
+    - konveyor.io/target=kubernetes
+    - konveyor.io/target=networking.k8s.io/v1
+    - konveyor.io/target=cloud-readiness
+  when:
+    and:
+      # # Limit to YAML files typically checked into the app repo
+      # - builtin.file:
+      #     pattern: "**/*.y?(a)ml"
+      # # Detect OpenShift Route manifests
+      # - builtin.filecontent:
+      #     # Either of these lines in the same file is a strong signal
+      #     pattern: "(?m)^\\s*apiVersion:\\s*route\\.openshift\\.io/v1\\s*$"
+      # - builtin.filecontent:
+      #     pattern: "(?m)^\\s*kind:\\s*Route\\s*$"
+      - builtin.filecontent:
+          filePattern: "*.yaml"
+          pattern: "kind: Route"         
+  description: >
+    OpenShift Route resources are cluster-specific and should be converted to a
+    standard Kubernetes Ingress for portability.
+  message: |
+    This repository defines an **OpenShift Route**. Convert it to a **Kubernetes Ingress**.
+    ```
+  links:
+    - title: Kubernetes Ingress (networking.k8s.io/v1)
+      url: https://kubernetes.io/docs/concepts/services-networking/ingress/
+    - title: OpenShift Route API
+      url: https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html
