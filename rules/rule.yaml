@@ -22,10 +22,58 @@
           pattern: "kind: Route"         
   description: >
     OpenShift Route resources are cluster-specific and should be converted to a
-    standard Kubernetes Ingress for portability.
+    standard Kubernetes Ingress for portability.This is important part of our Migration strategy.
   message: |
-    This repository defines an **OpenShift Route**. Convert it to a **Kubernetes Ingress**.
+    This repository defines an **OpenShift Route**. Convert it to a **Kubernetes Ingress**.This is important part of our Migration strategy.
+
+    **Key mappings:**
+    - `spec.host`         → `spec.rules[0].host`
+    - `spec.path`         → `spec.rules[0].http.paths[0].path` (use `pathType: Prefix`)
+    - `spec.to.name`      → `spec.rules[0].http.paths[0].backend.service.name`
+    - `spec.port.targetPort` → `spec.rules[0].http.paths[0].backend.service.port.{name|number}`
+
+    ** Notes **
+    - While generating the code maintain the yaml syntax,
+    - Do not write any additional comments.
+
+    **Example conversion**
+
+    _OpenShift Route (before):_
+    ```yaml
+    apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: myapp
+    spec:
+      host: example.com
+      path: /
+      to:
+        kind: Service
+        name: myapp
+      port:
+        targetPort: 8080
     ```
+
+    _Kubernetes Ingress (after):_
+    ```yaml
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: myapp
+    spec:
+      rules:
+        - host: example.com
+          http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: myapp
+                    port:
+                      number: 8080
+    ```
+
   links:
     - title: Kubernetes Ingress (networking.k8s.io/v1)
       url: https://kubernetes.io/docs/concepts/services-networking/ingress/
