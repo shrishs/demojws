@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: demoapp
 spec:
   rules:
-    - host: route-demoapp-demo-kai.apps.itz-7kgxzz.tzaas.techzone.ibm.com
+    - host: route-demoapp-demo-kai.apps.cluster-wlx9h.sandbox1782.opentlc.com
       http:
         paths:
           - path: /
